@@ -15,6 +15,8 @@ SECRET_KEY = 'django-insecure-%2uxui70q(m33&(bmy%2cam4opg!=90rirt#6wnu3qd$!9ptjm
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS=['http://127.0.0.1:8000/', 'http://localhost']
+
 
 
 # Application definition
@@ -126,3 +128,17 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'accounts.User'
+
+
+
+# email backend
+# EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend'
+
+DEFAULT_FROM_EMAIL= "toshniyozovogabek0627@gmail.com"
+
+EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST= "smtp.elasticemail.com"
+EMAIL_PORT=587
+EMAIL_USE_TLS=True
+EMAIL_HOST_USER="toshniyozovogabek0627@gmail.com"
+EMAIL_HOST_PASSWORD ="35347DB83D90C7F42B6A7EDBOD90F5A249AF"
