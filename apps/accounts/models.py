@@ -2,11 +2,16 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from apps.base.models import BaseModel
 from datetime import datetime, timedelta
-
+import uuid
 class User(AbstractUser):
     phone =models.CharField(max_length=20, null=True, blank=True)
     photos=models.ImageField(upload_to='users/', default='default/i.webp', blank=True)
+    email=models.EmailField(unique=True)
     
+
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["username"]
+
     @property
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
@@ -17,6 +22,7 @@ class User(AbstractUser):
 EMAIL_EXPIRE_TIME = 5
 
 class UserResetPasswordCode(BaseModel):
+    private_id= models.UUIDField(default=uuid.uuid4, editable=False)
     email = models.EmailField(blank=True, unique=False, null=True)
     code=models.CharField(max_length=15, blank=True, null=True)
     expiration_time = models.DateTimeField(null=True, blank=True)

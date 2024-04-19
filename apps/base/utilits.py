@@ -1,34 +1,39 @@
-import random
 import threading
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
-
-CODE_LENGTH = 6
+import random
 
 
 class EmailThreading(threading.Thread):
     def __init__(self, subject, body, to_email, content_type):
-        self.subject= subject
+        self.subject = subject
         self.body = body
-        self.to_email= to_email
+        self.to_email = to_email
         self.content_type = content_type
         threading.Thread.__init__(self)
+
     def run(self):
         email = EmailMessage(
             subject=self.subject,
             body=self.body,
             to=[self.to_email]
         )
+        if self.content_type == "html":
+            email.content_subtype = "html"
+        email.send()
+
 
 def send_mail_code(email, code):
-    html_content= render_to_string(
+    html_content = render_to_string(
         template_name='accounts/password_reset_email.html',
-        context={'code':code}
+        context={'code': code}
     )
-    subject = "Instagram tasdiqlash uchun ro'yxatdan o'tish"
-    body= html_content
-    to_email=email
+
+    subject = "Instagram tashdiqlash uchun ro'yxatdan o'tish"
+    body = html_content
+    to_email = email
     content_type = 'html'
+
     EmailThreading(subject, body, to_email, content_type).start()
 
 CODE_LENGTH = 6

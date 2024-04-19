@@ -8,15 +8,19 @@ Index page
     home page
     <p>
     {% if user.is_authenticated %}
-        Welcome, {{ user.username }}
-        <p><a href="{% url 'accounts:update' %}">Update</a></p>
-        <p><a href="{% url 'accounts:logout' %}">Logout</a></p>
-            
+        <div class="container">
+            Welcome, {{ user.username }}
+            <p><a href="{% url 'accounts:update' %}"> <button type="button" class="btn btn-primary">Update</button></a></p>
+            <p><a href="{% url 'accounts:logout' %}"><button type="button" class="btn btn-warning">Logout</button></a></p>
+        </div>    
     {% else %}
-        Welcome, guest! 
-        <p><a href="{% url 'accounts:login' %}">Login</a></p>
+        <div class="container">
 
-        <p><a href="{% url 'accounts:register' %}">Register</a></p>
+            Welcome, guest! 
+            <br>
+            <p><a href="{% url 'accounts:login' %}"><button type="button" class="btn btn-primary">Login</button></a></p>
+            <p><a href="{% url 'accounts:register' %}"><button type="button" class="btn btn-info">Register</button></a></p>
+        </div>    
         
     {% endif %}
     </p>

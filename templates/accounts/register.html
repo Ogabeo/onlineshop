@@ -9,6 +9,8 @@ Register
     {% csrf_token %}
     {{ form.as_p }}
     <input type='submit' value='Register'>
+    <a href="{% url 'index' %}">  <button type="button" class="btn btn-info">Back</button> </a>
     
     </form >
+
 {% endblock content %}
