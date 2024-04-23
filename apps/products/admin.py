@@ -12,10 +12,10 @@ class CategoryAdmin(DraggableMPTTAdmin):
     mptt_indent_field = "name"
     list_display=('tree_actions', 'indented_title', 'display_icon', 'created_at', 'is_active', 'id')
     list_display_links=('indented_title', 'display_icon', 'id')
-    readonly_fields=('id', 'display_icons')
+    readonly_fields=('id', 'display_icon')
     
     def display_icon(self, obj):
-        return mark_safe('<img src="%s" width="50" height="50" />' % obj.icon.url)
+        return mark_safe('<img src="%s" width="50" />' % obj.icon.url)
     
     display_icon.allow_tags = True
     display_icon.short_description = 'Icon'
@@ -26,6 +26,7 @@ class BrandAdmin(admin.ModelAdmin):
     search_fields=('id', 'name')
     list_display=['name', 'display_icon', 'id', 'created_at']
     list_display_links=('name', 'id')
+   
     readonly_fields=('id', 'display_icon')
 
     def display_icon(self, obj):
@@ -34,10 +35,11 @@ class BrandAdmin(admin.ModelAdmin):
     display_icon.allow_tags = True
     display_icon.short_description = 'Icon'
 
+
 @admin.register(Color)
 class ColorAdmin(admin.ModelAdmin):
-    list_display=('name', 'code', 'created_at', 'id')
-    list_editable=('code',)
+    list_display=('name', 'code', 'created_at', 'id', 'is_active')
+    list_editable=('code', 'is_active')
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
@@ -76,8 +78,8 @@ class ProductAdmin(admin.ModelAdmin):
 
 @admin.register(Review)
 class RateAdmin(admin.ModelAdmin):
-    list_display = ('user', 'rate', 'product', 'created_at')
-    list_display_links = ('user', 'rate', 'product', 'created_at')
+    list_display = ('user', 'rating', 'product', 'created_at')
+    list_display_links = ('user', 'rating', 'product', 'created_at')
     search_fields = ('product', 'id', 'user')
 
 

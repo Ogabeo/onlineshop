@@ -80,15 +80,17 @@ class Tag(BaseModel):
 class Product(BaseModel):
     title = models.CharField(max_length=150)
     slug = models.SlugField(max_length=150, unique=True)
-    categories=models.ManyToManyField(Category, blank=True)
-    tags=models.ManyToManyField(Tag, blank=True)
+    categories=models.ManyToManyField(Category, blank=True, related_name="products")
+    mini_desc =  models.TextField()
+
+    tags=models.ManyToManyField(Tag, blank=True, related_name="products")
     description=models.TextField()
     status = models.CharField(max_length=50, choices=PRODUCT_STATUS, default='New')
     percentage = models.FloatField(default=0)
-    brand=models.ForeignKey(Brand, on_delete=models.CASCADE)
+    brand=models.ForeignKey(Brand, on_delete=models.CASCADE, related_name='products')
 
     def __str__(self):
-        return self.name
+        return str(self.title)
     
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
@@ -136,10 +138,10 @@ class ProductImage(BaseModel):
     image=models.ImageField(upload_to="products/")
 
     def __str__(self):
-        return self.product
+        return f"{self.product}"
     @property
     def image_url(self):
-        return self.image.url
+        return f"{self.image.url}"
     @property
     def get_image(self):
         if not self.image.url:
@@ -148,6 +150,9 @@ class ProductImage(BaseModel):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         img = Image.open(self.image.path)
+        o_size = (405, 500)
+        img.thumbnail(o_size)
+
         img.save(self.image.path, quality = 50)
 
 class Review(BaseModel):
