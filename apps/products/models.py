@@ -101,6 +101,11 @@ class Product(BaseModel):
         product_size= self.sizes.all().first()
         return product_size.price
     
+    @property
+    def get_reviews_count(self):
+        reviews = self.reviews.count()
+        return reviews
+    
 
     @property
     def get_new_price(self):

@@ -20,7 +20,7 @@ class UserRegisterView(View):
         if user_form.is_valid():
             user_form.save()
             messages.success(request, "tizimdan muvaffaqiyatli ro'yxatdan o'tdingiz...")
-            return redirect('index')
+            return redirect('home')
 
         messages.error(request, "Tizimdan ro'yxatdan o'ta olmadingiz...")
         context ={
@@ -43,7 +43,7 @@ class LoginView(View):
             if user is not None:
                 login(request, user)
                 messages.success(request, "siz tizimga muvaffaqiyatli kirdingiz...")
-                return redirect("index")
+                return redirect("home")
             messages.error(request, "Login yoki parol noto'g'ri!!!")
             return render(request, "accounts/login.html", {'form': user_form})
         
@@ -55,7 +55,7 @@ class LoginView(View):
 class LogoutView(View):
     def get(self, request):
         logout(request)
-        return redirect('index')
+        return redirect('home')
     
 
 class UpdateUserView(View):
@@ -71,7 +71,7 @@ class UpdateUserView(View):
         if user_form.is_valid():
             user_form.save()
             messages.success(request, "Muvaffaqiyatli yangilandi...")
-            return redirect("index")
+            return redirect("home")
         messages.error(request, user_form.errors)
         return render(request, 'accounts/update_profile.html', {'form':user_form})
 
