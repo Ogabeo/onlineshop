@@ -4,7 +4,7 @@ def category_context(request):
     categories = Category.objects.all().filter(is_active=True, parent=None)
     mega_menu = categories[:3]
     last_ctgs=Category.objects.all().filter(is_active=True, children__isnull=True)
-    
+   
 
     context={
         'categories':categories,

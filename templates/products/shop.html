@@ -121,8 +121,7 @@ home page
 
 
                                     {% for page in products_all.paginator.page_range %}
-                                
-
+                               
                                     {% if products_all.number == page %}
 
 
@@ -153,13 +152,11 @@ home page
                                 </div>
                                 <div class="">
                                     <ul class="categor-list">
-                                        <li class="cat-item text-muted"><a href="shop-grid-right.html">Jacket</a>(125)</li>
-                                        <li class="cat-item text-muted"><a href="shop-grid-right.html">Jeans</a>(68)</li>
-                                        <li class="cat-item text-muted"><a href="shop-grid-right.html">Sweatshirts</a>(284)</li>
-                                        <li class="cat-item text-muted"><a href="shop-grid-right.html">Trousers</a>(274)</li>
-                                        <li class="cat-item text-muted"><a href="shop-grid-right.html">Kitwears</a>(152)</li>
-                                        <li class="cat-item text-muted"><a href="shop-grid-right.html">Sportswear</a>(302)</li>
-                                        <li class="cat-item text-muted"><a href="shop-grid-right.html">Accessories</a>(168)</li>
+                                        {% for ctg in categories %}
+                                        
+                                            <li class="cat-item text-muted"><a href="{% url 'shop' ctg.id %}">{{ ctg.name }}</a>({{ ctg.products.count }})</li>
+                                        {% endfor %}
+
                                     </ul>
                                 </div>
                             </div>

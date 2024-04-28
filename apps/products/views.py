@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views import View
 from apps.products.models import Product, Category, Brand
 from django.core.paginator import Paginator
@@ -39,6 +39,8 @@ class CategoryProductsView(View):
     
 class ShopAllView(View):
     def get(self, request):
+        categories = Category.objects.all().filter(is_active=True, parent=None)
+
         products_all = Product.objects.all().filter(is_active = True)
 
         page_size=request.GET.get('page_size', 10)
@@ -46,14 +48,36 @@ class ShopAllView(View):
 
         page = request.GET.get('page', 1)
         page_obj = paginator.page(page)
-        print(page_size)
-
-
-
         context = {
+            'categories':categories,
             'products_all':page_obj,
             'page_size':page_size,
         }
 
         return render(request, "products/shop.html", context)
-    
+
+
+class ShopCategoryView(View):
+
+    def get(self, request, uuid):
+        ctg= get_object_or_404(Category, id=uuid)
+        categories = Category.objects.all().filter(is_active=True, parent=ctg)
+
+        if not categories:
+            categories=Category.objects.all().filter(is_active=True, level=1 )
+        
+
+        ctg_products=ctg.products.filter(is_active=True)     
+        page_size=request.GET.get('page_size', 10)
+        paginator = Paginator(ctg_products, page_size)
+        page = request.GET.get('page', 1)
+        page_obj = paginator.page(page)
+        context = {
+            'products_all':page_obj,
+            'page_size':page_size,
+            'categories':categories
+        }
+
+        print(page_obj)
+        # print(categories)
+        return render(request, "products/shop.html", context)
