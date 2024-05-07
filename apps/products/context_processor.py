@@ -12,6 +12,7 @@ def category_context(request):
         'last_ctgs':last_ctgs,
 
     }
+    
     return context
 
 

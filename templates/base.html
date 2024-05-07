@@ -22,6 +22,8 @@
     <link rel="stylesheet" href="{% static 'assets/css/main.css' %}">
 </head>
 
+
+
 <body>
     <header class="header-area header-style-4 header-height-2">
         <div class="header-top header-top-ptb-1 d-none d-lg-block">
@@ -71,7 +73,7 @@
                         <a href="index.html"><img src="{% static 'assets/imgs/theme/logo-default.png' %}" alt="logo"></a>
                     </div>
                     <div class="search-style-2">
-                        <form action="#">
+                        <form action="{% url 'shop' %}" method='GET'>
                             <select class="select-active">
                                 <option>All Categories</option>
                                 {% for each_ctgs in last_ctgs %}
@@ -79,7 +81,7 @@
                                 {% endfor %}
                                 
                             </select>
-                            <input type="text" placeholder="Search for items…">
+                            <input type="text" name ='search' placeholder="Search for items…">
                             <button type="submit"> <i class="far fa-search"></i> </button>
                         </form>
                     </div>
@@ -677,8 +679,15 @@
     <script src="{% static 'assets/js/plugins/isotope.js' %}"></script>
     <script src="{% static 'assets/js/plugins/scrollup.js' %}"></script>
     <script src="{% static 'assets/js/plugins/jquery.vticker-min.js' %}"></script>
-    <!-- Template  JS -->
+    <script src="{% static 'assets/js/plugins/jquery.theia.sticky.js' %}"></script>
+
+
+    
+    
+    {% block script %}
+    {% endblock script %}
     <script src="{% static 'assets/js/main.js' %}"></script>
+
 </body>
 
 </html>

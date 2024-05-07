@@ -3,6 +3,7 @@ from mptt.models import MPTTModel, TreeForeignKey
 from apps.base.models import BaseModel
 from django.utils.text import slugify
 from colorfield.fields import ColorField
+
 from apps.accounts.models import User
 from django.db.models import Avg
 from django.utils.safestring import mark_safe
@@ -46,6 +47,7 @@ class Category(BaseModel, MPTTModel):
 
     def __str__(self):
         return self.name 
+    
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         super().save(*args, **kwargs)
@@ -116,13 +118,10 @@ class Product(BaseModel):
         return 0
     
 
-        
-
     @property
     def get_avg_rating(self):
-        rating = self.reviews.all().aggregate(rating_avg=Avg('rating'), default=0)
-        return round(rating['rating_avg'], 1)
-    
+        rating = self.reviews.all().aggregate(rating_avg=Avg('rating', default=0))
+        return round(rating['rating_avg'], 1) * 20
     
 
 
@@ -163,12 +162,16 @@ class ProductImage(BaseModel):
 class Review(BaseModel):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="reviews")
     product=models.ForeignKey(Product, on_delete=models.CASCADE, related_name="reviews")
-    rating =models.CharField(max_length=2, choices=RATING_CHOICES)
+    rating =models.IntegerField(max_length=2, choices=RATING_CHOICES)
     comment=models.TextField(blank=True, null=True)
 
     def __str__(self):
         return f"{self.product} | {self.user}"
     
+
+
+
+
 
 
 

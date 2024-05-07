@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views import View
 from apps.products.models import Product, Category, Brand
 from django.core.paginator import Paginator
-
+from django.db.models import Q
 class HomePageView(View):
     def get(self, request):
         products=Product.objects.all().filter(is_active=True)
@@ -39,23 +39,47 @@ class CategoryProductsView(View):
     
 class ShopAllView(View):
     def get(self, request):
+
+        sort_by =request.GET.get('sort_by', '?')
+
         categories = Category.objects.all().filter(is_active=True, parent=None)
 
-        products_all = Product.objects.all().filter(is_active = True)
+        products_all = Product.objects.all().filter(is_active = True).order_by(sort_by)
+
+
+        
+        
+
+
+        search = request.GET.get('search', '')
+        if search:
+            products_all = products_all.filter(Q(title__icontains = search) | Q(description__icontains = search) ).order_by(sort_by)
+            
+        print(search)
+        
+
 
         page_size=request.GET.get('page_size', 10)
+        if page_size == 'all':
+            page_size = products_all.count()
+
         paginator = Paginator(products_all, page_size)
 
         page = request.GET.get('page', 1)
         page_obj = paginator.page(page)
+
+
+
         context = {
             'categories':categories,
             'products_all':page_obj,
             'page_size':page_size,
+            'search':search,
+
         }
 
         return render(request, "products/shop.html", context)
-
+    
 
 class ShopCategoryView(View):
 
@@ -81,3 +105,14 @@ class ShopCategoryView(View):
         print(page_obj)
         # print(categories)
         return render(request, "products/shop.html", context)
+
+class DetailView(View):
+    def get(self, request, uuid):
+        this_product =get_object_or_404(Product, id=uuid)
+
+        print(this_product)
+        context = {
+            'this_product':this_product
+        }
+
+        return render(request, 'products/detail.html', context)
