@@ -167,9 +167,13 @@ class Review(BaseModel):
 
     def __str__(self):
         return f"{self.product} | {self.user}"
-    
+    class Meta:
+        verbose_name = 'Review'
+        verbose_name_plural= 'Reviews'
 
-
+    @property
+    def stars_percent(self):
+        return round(int(self.rating * 100 / 5) , 1)
 
 
 

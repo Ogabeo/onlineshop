@@ -20,7 +20,7 @@ home page
                                             
                                             <h2 class="animated fw-900">Supper Value Deals</h2>
                                             <h1 class="animated fw-900 text-brand">On All Products</h1>
-                                            <p class="animated">Save more with coupons & up to 70% off</p>
+                                            <p class="animated">Save more with coupons & up to 70% off ffffff</p>
                                             <a class="animated btn btn-default btn-rounded" href="shop-product-right.html"> SHOP NOW <i class="fa fa-arrow-right"></i> </a>
                                         </div>
                                     </div>
@@ -151,7 +151,7 @@ home page
                                 <div class="product-cart-wrap mb-30">
                                     <div class="product-img-action-wrap">
                                         <div class="product-img product-img-zoom">
-                                            <a href="shop-product-right.html">
+                                            <a href="{% url 'detail' product.id %}">
                                                 <img class="default-img" src="{{ product.images.first.image_url }}" alt="">
                                                 <img class="hover-img" src="{{ product.images.last.image_url }}" alt="">
                                             </a>
@@ -169,7 +169,7 @@ home page
                                         <div class="product-category">
                                             <a href="shop-grid-right.html">{{ product.categories.last.name }}</a>
                                         </div>
-                                        <h2><a href="shop-product-right.html">{{ product.title }}</a></h2>
+                                        <h2><a href="{% url 'detail' product.id %}">{{ product.title }}</a></h2>
                                         <div class="rating-result" title="90%">
                                             <span>
                                                 <span>{{ product.get_reviews_count }} sharhlar</span>
@@ -188,7 +188,7 @@ home page
 
                                         </div>
                                         <div class="product-action-1 show">
-                                            <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i class="far fa-shopping-bag"></i></a>
+                                            <a aria-label="Add To Cart" class="action-btn hover-up" href="{% url 'add_shop_card' product.id %}"><i class="far fa-shopping-bag"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -424,8 +424,8 @@ home page
                                     </div>
                                 </div>
                                 <div class="product-content-wrap">
-                                    <h2><a href="shop-product-right.html">{{ each_product.title }}</a></h2>
-                                    <div class="rating-result" title="90%">
+                                    <h2><a href="{% url 'detail' each_product.id %}">{{ each_product.title }}</a></h2>
+                                    <div class="rating-result" title="{{ each_product.get_avg_rating }} %">
                                         <span>
 
                                         </span>
@@ -581,9 +581,9 @@ home page
                                                         <a href="shop-grid-right.html">{{ each_random_product.categories.first.name }}</a>
                                                     </div>
                                                     <h2><a href="shop-product-right.html">{{ each_random_product.title|slice:"30" }}...</a></h2>
-                                                    <div class="rating-result" title="90%">
+                                                    <div class="rating-result" title="{{ each_random_product.get_avg_rating }}%">
                                                         <span>
-                                                            <span>70%</span>
+                                                            <span>{{ each_random_product.get_avg_rating }}%</span>
                                                         </span>
                                                     </div>
                                                     <div class="product-price">
@@ -597,7 +597,7 @@ home page
                                                         {% endif %}
                                                     </div>
                                                     <div class="product-action-1 show">
-                                                        <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i class="far fa-shopping-bag"></i></a>
+                                                        <a aria-label="Add To Cart" class="action-btn hover-up" href="{% url 'add_shop_card' each_random_product.id %}"><i class="far fa-shopping-bag"></i></a>
                                                     </div>
                                                 </div>
                                             </div>                                        

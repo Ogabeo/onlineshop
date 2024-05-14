@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.views import View
-from apps.products.models import Product, Category, Brand
+from apps.products.models import Product, Category, Brand, ProductSize, Size
 from django.core.paginator import Paginator
 from django.db.models import Q
 class HomePageView(View):
@@ -109,10 +109,21 @@ class ShopCategoryView(View):
 class DetailView(View):
     def get(self, request, uuid):
         this_product =get_object_or_404(Product, id=uuid)
+        product_colors = this_product.sizes.all().distinct()
+        product_sizes= this_product.sizes.all().values('size').distinct()
+        pre_sizes = Size.objects.filter(id__in = product_sizes )
+        product_comments = this_product.reviews.all().filter(is_active = True).order_by('-id')[:3]
 
-        print(this_product)
+
+        # print(this_product)
+        # print(product_colors)
+
         context = {
-            'this_product':this_product
+            'this_product':this_product,
+            'product_colors':product_colors,
+            'product_sizes':pre_sizes,
+            'product_comments':product_comments
+
         }
 
         return render(request, 'products/detail.html', context)
