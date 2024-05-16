@@ -1,0 +1,79 @@
+﻿{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+shop cart page
+{% endblock title %}
+{% block content %}
+    <main class="main">
+        <div class="page-header breadcrumb-wrap">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="index.html" rel="nofollow">Home</a>
+                    <span></span> Shop
+                    <span></span> Your Cart
+                </div>
+            </div>
+        </div>
+        <section class="mt-60 mb-60">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table-responsive">
+                            <table class="table shopping-summery text-center clean">
+                                <thead>
+                                    <tr class="main-heading">
+                                        <th scope="col">Image</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Subtotal</th>
+                                        <th scope="col">Remove</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for each_product in OrderedProducts %}
+                                    <tr>
+                                        <td class="image product-thumbnail"><img src="{{ each_product.product.images.first.image_url }}" alt="image"></td>
+                                        <td class="product-des product-name">
+                                            <p class="product-name"><a href="/">{{ each_product.product.title }}</a></p>
+                                            <p class="font-xs">{{ each_product.product.mini_desc|slice:"80" }}...
+                                            </p>
+                                        </td>
+                                        <td class="price" data-title="Price"><span>{{ each_product.product.get_new_price }} so'm</span></td>
+                                        <td class="quantity" data-title="Quantity"><span>{{ each_product.quantity }}</span></td>
+                                        
+
+                                        <td class="text-right" data-title="Cart">
+                                            <span>{{ each_product.product.get_new_price }} so'm </span>
+                                        </td>
+                                        <td class="action" data-title="Remove"><a href="{% url 'delete_shop_card' each_product.id %}" class="text-muted"><i class="fa fa-trash-alt"></i></a></td>
+                                    </tr>
+                                    {% endfor %}
+                                    <tr>
+                                        {% if OrderedProducts %}
+                                        <td colspan="6" class="text-end">
+                                            <a href="{% url 'delete_all_card' %}" class="text-muted"> <i class="fa fa-times-circle"></i> Clear Cart</a>
+                                        </td>
+                                        {% else %}
+                                             <p><i class="fa fa-times-circle"></i> No ordered items</p>
+                                            
+                                        {% endif %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="cart-action text-end">
+                            <a class="btn btn-rounded" href={% url 'shop_address' %}><i class="far fa-cart-plus mr-5"></i>Continue Shopping</a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock content %}
+
+{% block script %}
+<script src="{% static 'assets/js/shop.js' %}"></script>
+{% endblock script %}
+   

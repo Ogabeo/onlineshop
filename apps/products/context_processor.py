@@ -8,7 +8,7 @@ def category_context(request):
     cards = 0
     if request.user.is_authenticated:
         sevimlilar = request.user.sevimlilar.all().count()
-        cards = request.user.orders.all().count()
+        cards = request.user.orders.all().filter(status=False).count()
          
 
     context={
@@ -16,6 +16,7 @@ def category_context(request):
         'mega_menu':mega_menu,
         'last_ctgs':last_ctgs,
         'sevimlilar':sevimlilar,
+        'cards':cards,
         
     }
     

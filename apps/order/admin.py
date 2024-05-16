@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Sevimlilar, Order
+from .models import Sevimlilar, Order, Payment
 
 # Register your models here.
 
@@ -17,4 +17,10 @@ class OrderAdmin(admin.ModelAdmin):
     search_fields= ['user', 'product']
     list_per_page= 10
 
-    
+@admin.register(Payment)
+class PaymentAdmin(admin.ModelAdmin):
+    list_display = ['country', 'address', 'phone', 'total']
+    list_filter = ['country']
+    search_fields = ['country']
+    list_per_page = 10
+
