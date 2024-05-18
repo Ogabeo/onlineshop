@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 from mptt.admin import DraggableMPTTAdmin
-from .models import Category, Brand, Color, Product, ProductImage, Review, Tag, Size, ProductSize
+from .models import Category, Brand, Color, Product, ProductImage, Review, Tag, Size, ProductSize, Contact
 from django.utils.html import mark_safe
 
 @admin.register(Category)
@@ -81,6 +81,11 @@ class RateAdmin(admin.ModelAdmin):
     list_display = ('user', 'rating', 'product', 'created_at')
     list_display_links = ('user', 'rating', 'product', 'created_at')
     search_fields = ('product', 'id', 'user')
+
+@admin.register(Contact)
+class ContactAdmin(admin.ModelAdmin):
+    list_display = ('firstname', 'email', 'phone', 'email', 'subject')
+    list_display_links = ('firstname', 'email', 'phone', 'email', 'subject')
 
 
 

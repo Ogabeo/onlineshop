@@ -158,8 +158,7 @@ home page
                                         </div>
                                         <div class="product-action-1">
                                             <a aria-label="Quick view" class="action-btn hover-up"><i class="far fa-search"></i></a>
-                                            <a aria-label="Add To Wishlist" class="action-btn hover-up" href="shop-wishlist.html"><i class="far fa-heart"></i></a>
-                                            <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="far fa-exchange-alt"></i></a>
+                                            <a aria-label="Add To Wishlist" class="action-btn hover-up" href="{% url 'add_to_favorite' %}"><i class="far fa-heart"></i></a>
                                         </div>
                                         <div class="product-badges product-badges-position product-badges-mrg">
                                             <span class="{{ product.status|lower }}">{{ product.status }}</span>
@@ -167,10 +166,10 @@ home page
                                     </div>
                                     <div class="product-content-wrap">
                                         <div class="product-category">
-                                            <a href="shop-grid-right.html">{{ product.categories.last.name }}</a>
+                                            <a href="{% url 'category_products' product.categories.last.id %}">{{ product.categories.last.name }}</a>
                                         </div>
                                         <h2><a href="{% url 'detail' product.id %}">{{ product.title }}</a></h2>
-                                        <div class="rating-result" title="90%">
+                                        <div class="rating-result" title="{{ product.get_avg_rating }}%">
                                             <span>
                                                 <span>{{ product.get_reviews_count }} sharhlar</span>
                                             </span>
@@ -229,7 +228,7 @@ home page
                                     </div>
                                     <div class="product-content-wrap">
                                         <div class="product-category">
-                                            <a href="shop-grid-right.html">{{ each_product.categories }}</a>
+                                            <a href="{% url 'category_products' each_product.categories.last.id %}">{{ each_product.categories.last.name }}</a>
                                         </div>
                                         <h2><a href="shop-product-right.html">{{ each_product.title }}</a></h2>
                                         <div class="rating-result" title="90%">
@@ -290,9 +289,9 @@ home page
                                     </div>
                                     <div class="product-content-wrap">
                                         <div class="product-category">
-                                            <a href="shop-grid-right.html">{{each_product.categories}}</a>
+                                            <a href="{% url 'category_products' each_product.categories.last.id %}">{{each_product.categories.last.name }}</a>
                                         </div>
-                                        <h2><a href="shop-product-right.html">{{ each_product.title }}</a></h2>
+                                        <h2><a href="{% url 'detail' each_product.id %}">{{ each_product.title }}</a></h2>
                                         <div class="rating-result" title="90%">
                                             <span>
                                                 <span>{{ each_product.get_reviews_count }} sharhlar</span>
@@ -341,7 +340,7 @@ home page
                             <figure class="mb-30 img-hover-scale overflow-hidden">
                                 <img src="{{ ctg.icon.url }}" alt="" height="100px">
                             </figure>
-                            <h5><a href="{% url 'category' %}">{{ ctg.name }}</a></h5>
+                            <h5><a href="{% url 'category_products' ctg.id %}">{{ ctg.name }}</a></h5>
                         </div>
                         {% endfor %}
                         

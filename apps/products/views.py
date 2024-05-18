@@ -1,8 +1,9 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
-from apps.products.models import Product, Category, Brand, ProductSize, Size
+from apps.products.models import Product, Category, Brand, ProductSize, Size, Contact
 from django.core.paginator import Paginator
 from django.db.models import Q
+
 class HomePageView(View):
     def get(self, request):
         products=Product.objects.all().filter(is_active=True)
@@ -30,13 +31,7 @@ class HomePageView(View):
         }
         return render(request, 'products/index.html', context)
     
-class CategoryProductsView(View):
-    def get(self, request):
-        # ctg = Category.objects.get(id=id)
-        # category_products=ctg.products.all()
-        
-        return render(request, 'products/category_products.html')
-    
+
 class ShopAllView(View):
     def get(self, request):
 
@@ -127,3 +122,33 @@ class DetailView(View):
         }
 
         return render(request, 'products/detail.html', context)
+
+
+class CategoryProductsView(View):
+    def get(self, request, uuid):
+        ctg = Category.objects.get(id=uuid)
+        category_news = Product.objects.all().filter(is_active=True, categories=ctg)
+        print(category_news)
+        context = {
+            'ctg':ctg,
+            'category_news':category_news
+        }
+        return render(request, 'products/category_products.html', context)
+
+class ContactView(View):
+    def get(self, request):
+        return render(request, 'products/contact.html')
+    
+    def post(self, request):
+        data = request.POST
+        contact = Contact()
+        contact.firstname = data.get('firstname')
+        contact.email = data.get('email')
+        contact.phone = data.get('phone')
+        contact.subject = data.get('subject')
+        contact.message = data.get('message')
+
+        contact.save()
+
+        return redirect('home')
+

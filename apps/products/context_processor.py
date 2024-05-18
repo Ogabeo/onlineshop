@@ -1,4 +1,4 @@
-from .models import Category
+from .models import Category, Product
 
 def category_context(request):
     categories = Category.objects.all().filter(is_active=True, parent=None)
@@ -9,7 +9,7 @@ def category_context(request):
     if request.user.is_authenticated:
         sevimlilar = request.user.sevimlilar.all().count()
         cards = request.user.orders.all().filter(status=False).count()
-         
+ 
 
     context={
         'categories':categories,

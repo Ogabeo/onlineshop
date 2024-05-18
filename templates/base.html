@@ -70,7 +70,7 @@
             <div class="container">
                 <div class="header-wrap header-space-between">
                     <div class="logo logo-width-1">
-                        <a href="index.html"><img src="{% static 'assets/imgs/theme/logo-default.png' %}" alt="logo"></a>
+                        <a href="{% url 'home' %}"><img src="{% static 'assets/imgs/theme/logo-default.png' %}" alt="logo"></a>
                     </div>
                     <div class="search-style-2">
                         <form action="{% url 'shop' %}" method='GET'>
@@ -90,7 +90,7 @@
                             <div class="header-action-icon-2">
                                 <a href="{% url 'favorite' %}">
                                     <img class="svgInject" alt="wowy" src="{% static 'assets/imgs/theme/icons/icon-heart.svg' %}">
-                                    <span class="pro-count blue">{{ sevimlilar.count }}</span>
+                                    <span class="pro-count blue">{{ sevimlilar }}</span>
                                 </a>
                             </div>
                             <div class="header-action-icon-2">
@@ -129,7 +129,7 @@
                                         {% if category.get_children %}
                                             <li class="has-children">
                                                 <a href="shop-grid-right.html">
-                                                {% if category.icon %}<img style="..." width="19px" height="19px" src="{{ category.icon.url }}"> {% endif %}
+                                                {% if category.icon %} <img style="..." width="19px" height="19px" src="{{ category.icon.url }}"> {% endif %}
                                                 
                                                 {{ category.name }}</a>
                                                 <div class="dropdown-menu">
@@ -142,7 +142,7 @@
                                                                                 <ul>
                                                                                     <li><span class="submenu-title">{{ sub_ctg.name }} </span></li>
                                                                                     {% for sub_sub_ctg in sub_ctg.get_children %}
-                                                                                        <li><a class="dropdown-item nav-link nav_item" href="#">{{ sub_sub_ctg.name }}</a></li>
+                                                                                        <li><a class="dropdown-item nav-link nav_item" href="{% url 'shop' sub_sub_ctg.id  %}">{{ sub_sub_ctg.name }}</a></li>
                                                                                     {% endfor %}
 
                                                                                 </ul>
@@ -174,7 +174,7 @@
                                                 </div>
                                             </li>
                                         {% else %}
-                                            <li><a href="shop-grid-right.html">
+                                            <li><a href="/">
                                             {% if category.icon %}<img style="..." width="19px" height="19px" src="{{ category.icon.url }}"> {% endif %}
                                             
                                             {{ category.name }}</a></li>
@@ -224,7 +224,7 @@
                                                 <ul>
                                                     {% for sub_ctg in category.get_children %}
                                                     
-                                                    <li><a href="/">{{ sub_ctg.name }}</a></li>
+                                                    <li><a href="{% url 'shop' sub_ctg.id %}">{{ sub_ctg.name }}</a></li>
                                                     {% endfor %}
 
                                                 </ul>
@@ -257,7 +257,7 @@
                                 </li>
                                 
                                 <li>
-                                    <a href="/">Contact</a>
+                                    <a href="{% url 'contact' %}">Contact</a>
                                 </li>
                             </ul>
                         </nav>
@@ -270,7 +270,7 @@
                             <div class="header-action-icon-2">
                                 <a href="shop-wishlist.html">
                                     <img alt="wowy" src="{% static 'assets/imgs/theme/icons/icon-heart-white.svg' %}">
-                                    <span class="pro-count white">4</span>
+                                    <span class="pro-count white">{{ sevimlilar }}</span>
                                 </a>
                             </div>
                             <div class="header-action-icon-2">

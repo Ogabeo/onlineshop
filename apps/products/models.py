@@ -175,6 +175,17 @@ class Review(BaseModel):
     def stars_percent(self):
         return round(int(self.rating * 100 / 5) , 1)
 
+class Contact(BaseModel):
+    firstname = models.CharField(max_length=50)
+    email = models.EmailField()
+    phone = models.CharField(max_length=20)
+    subject = models.CharField(max_length=50)
+    message = models.TextField()
+
+    def __str__(self):
+        return f"{self.firstname} | {self.subject} "
+    
+
 
 
 

@@ -69,13 +69,15 @@ class ShopAddress(View):
             'form':form
         }
         return render(request, 'products/shop_address.html', context)
-    def POST(self, request):
+    def post(self, request):
         user = request.user
         OrderedProducts = Order.objects.filter(Q(user=user) & Q(status =False))
         form = PaymentForm(request.POST)
+        print("sdfdsfsdfsdf")
         
         if form.is_valid():
-            payment = form.save(commit =False)
+            print("======================")
+            payment = form.save(commit=False)
             payment.save()
             payment.order.set(OrderedProducts)
             
