@@ -141,8 +141,8 @@ detail page
                                     </div>
                                     <a class="mail-to-friend font-sm color-grey" href="#"><i class="far fa-envelope"></i> Email to a
                                         Friend</a>
+                                    {% if this_product.reviews.exists %}
                                     <h3 class="section-title style-1 mb-30 mt-30">Reviews ({{ this_product.get_reviews_count }})</h3>
-                                    <!--Comments-->
                                     <div class="comments-area">
                                         <div class="row">
                                             <div class="col-lg-8">
@@ -201,6 +201,11 @@ detail page
                                             </div>
                                         </div>
                                     </div>
+                                    {% else %}
+                                    <h3>Bu mahsulotga hali reviewlar yoq</h3>
+                                    {% endif %}
+                                    <!--Comments-->
+                                   
                                     <!--comment form-->
                                     <div class="comment-form">
                                         <h4 class="mb-15">Add a review</h4>
