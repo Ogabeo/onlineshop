@@ -97,7 +97,7 @@ class ShopCategoryView(View):
             'categories':categories
         }
 
-        print(page_obj)
+        # print(page_obj)
         # print(categories)
         return render(request, "products/shop.html", context)
 
@@ -120,8 +120,9 @@ class DetailView(View):
             'product_comments':product_comments
 
         }
-
+    
         return render(request, 'products/detail.html', context)
+
 
 
 class CategoryProductsView(View):

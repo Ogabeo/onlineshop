@@ -9,7 +9,6 @@ def category_context(request):
     if request.user.is_authenticated:
         sevimlilar = request.user.sevimlilar.all().count()
         cards = request.user.orders.all().filter(status=False).count()
- 
 
     context={
         'categories':categories,
