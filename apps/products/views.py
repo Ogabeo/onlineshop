@@ -97,19 +97,18 @@ class ShopCategoryView(View):
             'categories':categories
         }
 
-        # print(page_obj)
-        # print(categories)
         return render(request, "products/shop.html", context)
 
 class DetailView(View):
     def get(self, request, uuid):
         this_product =get_object_or_404(Product, id=uuid)
+              
         product_colors = this_product.sizes.all().distinct()
         product_sizes= this_product.sizes.all().values('size').distinct()
         pre_sizes = Size.objects.filter(id__in = product_sizes )
         product_comments = this_product.reviews.all().filter(is_active = True).order_by('-id')[:3]
-
-
+        products_on_this_category = Product.objects.filter(is_active = True, categories=this_product.categories.all().last())
+        
         # print(this_product)
         # print(product_colors)
 
@@ -117,8 +116,8 @@ class DetailView(View):
             'this_product':this_product,
             'product_colors':product_colors,
             'product_sizes':pre_sizes,
-            'product_comments':product_comments
-
+            'product_comments':product_comments,
+            'products_on_this_category':products_on_this_category
         }
     
         return render(request, 'products/detail.html', context)

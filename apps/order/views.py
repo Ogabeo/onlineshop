@@ -8,15 +8,16 @@ from .forms import PaymentForm
 # Create your views here.
 
 class AddToFavorite(View):
-    def post(self, request):
+       def post(self, request):
         user = request.user 
         
         product = request.POST.get('product_id')
         print(product)
-        product = Product.objects.get(id = product)
-        Sevimlilar.objects.create(user=user, product = product)
-        return redirect('detail', uuid = product.id)
-    
+        product = Product.objects.get(id=product)
+        Sevimlilar.objects.create(user=user, product=product)
+        return redirect('detail', uuid=product.id)
+
+ 
 class FavoriteView(View):
     def get(self, request):
         user = request.user
@@ -39,6 +40,13 @@ def add_shop_card(request, uuid):
     Order.objects.create(user=user, product=product)
     return redirect(url)
 
+def add_whishlist(request, uuid):
+    print("ishladi")
+    url = request.META.get('HTTP_REFERER')
+    user = request.user
+    product=Product.objects.get(id=uuid)
+    Sevimlilar.objects.create(user=user, product=product)
+    return redirect(url)
 
 class ShopCartView(View):
     def get(self, request):

@@ -36,7 +36,7 @@ wishlist page
                                     <tr>
                                         <td class="image product-thumbnail"><img src="{{ like.product.images.first.image_url }}" alt="image"></td>
                                         <td class="product-des product-name">
-                                            <p class="product-name"><a href="shop-product-right.html">{{ like.product.title }}</a></p>
+                                            <p class="product-name"><a href="{% url 'detail' like.product.id %}">{{ like.product.title }}</a></p>
                                             <p class="font-xs">{{ like.product.mini_desc }}
                                             </p>
                                         </td>

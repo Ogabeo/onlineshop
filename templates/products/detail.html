@@ -53,7 +53,7 @@ detail page
                                             </div>
                                             <div class="product-rate-cover text-end">
                                                 <div class="product-rate d-inline-block">
-                                                    <div class="product-rating" style="width:{{ this_product.get_avg_rating }}%">
+                                                    <div class="product-rating" style="width:{{ this_product.get_avg_rating }} %">
                                                     </div>
                                                 </div>
                                                 <span class="font-small ml-5 text-muted"> ({{ this_product.get_reviews_count }} reviews)</span>
@@ -157,7 +157,7 @@ detail page
                                                                 </div>
                                                                 <div class="desc">
                                                                     <div class="product-rate d-inline-block">
-                                                                        <div class="product-rating" style="width:{{ each_comment.stars_percent }}%">
+                                                                        <div class="product-rating" style='width:{{ each_comment.stars_percent }}%'>
                                                                         </div>
                                                                     </div>
                                                                     <p>{{ each_comment.comment }}</p>
@@ -252,36 +252,34 @@ detail page
                                 </div>
                                 <div class="row">
                                 
-                                    {% for each_product in category_news %}
+                                    {% for each_product in products_on_this_category %}
                                     <div class="col-lg-3 col-md-4 col-12 col-sm-6">
                                         <div class="product-cart-wrap small hover-up">
                                             <div class="product-img-action-wrap">
                                                 <div class="product-img product-img-zoom">
                                                     
                                                     
-                                                    <a href="{% url 'shop' ctg.id %}" tabindex="0">
-                                                        <img class="default-img" src="{{ each_product.images.first.image_url }}" alt="">
+                                                    <a href="{% url 'detail' each_product.id %}" tabindex="0">
+                                                        <img class="default-img" src="{{ each_product.images.first.image_url }}" alt="image" style="width:180; height: 240px;">
                                                         <img class="hover-img" src="{{ each_product.images.last.image_url }}" alt="">
                                                     </a>
                                                 </div>
                                                 <div class="product-action-1">
-                                                    <a aria-label="Quick view" class="action-btn small hover-up" tabindex="0"><i class="far fa-search"></i></a>
-                                                    <a aria-label="Add To Wishlist" class="action-btn small hover-up" href="shop-wishlist.html" tabindex="0"><i class="far fa-heart"></i></a>
-                                                    <a aria-label="Compare" class="action-btn small hover-up" href="shop-compare.html" tabindex="0"><i class="far fa-exchange-alt"></i></a>
+                                                    <a aria-label="Add To Wishlist" class="action-btn small hover-up" href="{% url 'add_whishlist' each_product.id %}" tabindex="0"><i class="far fa-heart"></i></a>
                                                 </div>
                                                 <div class="product-badges product-badges-position product-badges-mrg">
                                                     <span class="hot">Hot</span>
                                                 </div>
                                             </div>
                                             <div class="product-content-wrap">
-                                                <h2><a href="shop-product-right.html" tabindex="0">Ulstra Bass Headphone</a></h2>
+                                                <h2><a href="{% url 'detail' each_product.id %}" tabindex="0">{{ each_product.title }}</a></h2>
                                                 <div class="rating-result" title="90%">
                                                     <span>
                                                     </span>
                                                 </div>
                                                 <div class="product-price">
-                                                    <span>$238.85 </span>
-                                                    <span class="old-price">$245.8</span>
+                                                    <span>{{ each_product.get_new_price }} so'm </span>
+                                                    <span class="old-price">{{ each_product.get_price }} so'm</span>
                                                 </div>
                                             </div>
                                         </div>
