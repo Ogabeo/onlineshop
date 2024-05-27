@@ -22,6 +22,7 @@ class FavoriteView(View):
     def get(self, request):
         user = request.user
         sevimlilar = Sevimlilar.objects.filter(user=user)
+        print(sevimlilar)
         context = {
             'sevimlilar':sevimlilar
         }

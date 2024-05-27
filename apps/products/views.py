@@ -1,12 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
-from apps.products.models import Product, Category, Brand, ProductSize, Size, Contact
+from apps.products.models import Product, Category, Brand, ProductSize, Size, Contact, About
 from django.core.paginator import Paginator
 from django.db.models import Q
 
 class HomePageView(View):
     def get(self, request):
         products=Product.objects.all().filter(is_active=True)
+        first_about = About.objects.first()
         featured_products=products.order_by('?')[:16]
         famous=products.filter(status='Sale')
         latest_products = products.filter(status='New').order_by('?')[:8]
@@ -15,8 +16,7 @@ class HomePageView(View):
         new_products=products.filter(status='New').order_by('?')[:3]
         famous_news=products.filter(status='New').order_by('?')[:3]
         hot_news=products.filter(status='Hot').order_by('?')[:3]
-        brands = Brand.objects.all().filter(is_active=True)
-        
+        brands = Brand.objects.all().filter(is_active = True)
         context ={
             'featured_products':featured_products,
             'latest_products':latest_products,
@@ -26,11 +26,12 @@ class HomePageView(View):
             'new_products':new_products,
             'famous_news':famous_news,
             'hot_news':hot_news,
-            'brands': brands
-
+            'brands':brands,
+            'first_about':first_about
         }
         return render(request, 'products/index.html', context)
-    
+
+ 
 
 class ShopAllView(View):
     def get(self, request):
@@ -75,6 +76,7 @@ class ShopAllView(View):
 
         return render(request, "products/shop.html", context)
     
+
 
 class ShopCategoryView(View):
 
@@ -152,3 +154,47 @@ class ContactView(View):
 
         return redirect('home')
 
+# class About(View):
+#     def get(self, request):
+#         first_about = About.objects.first()
+#         address = first_about.address
+
+#         context = {
+#             'address':address
+#         }
+#         return render(request, 'products/index.html', context)
+    
+
+
+# class BrandProducts(View):
+#     def get(self, request, uuid):
+#         brand = Brand.objects.all().filter(is_active = True, uuid=uuid)
+#         brands = Brand.objects.all().filter(is_active = True)
+#         brand_products = Product.objects.filter(is_active = True, products=brand)
+#         print(brand_products)
+
+#         context = {
+#             'brand':brand,
+#             'brands':brands,
+#             'brand_products':brand_products
+#         }  
+#         return render(request, 'products/index.html', context) 
+# class ShopBrandView(View):
+
+#     def get(self, request, uuid):
+#         brand= get_object_or_404(Brand, id=uuid)
+#         brands = Brand.objects.all()
+
+#         brand_products=brand.products.filter(is_active=True)  
+#         print(brand_products)
+#         page_size=request.GET.get('page_size', 10)
+#         paginator = Paginator(brand_products, page_size)
+#         page = request.GET.get('page', 1)
+#         page_obj = paginator.page(page)
+#         context = {
+#             'products_all':page_obj,
+#             'page_size':page_size,
+#             'brands':brands
+#         }
+
+#         return render(request, "products/index.html", context)

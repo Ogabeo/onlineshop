@@ -34,6 +34,9 @@ class Payment(BaseModel):
         for order in self.order.all():
             total += order.product.get_new_price + order.quantity
         return total
-    
+
+class DetailReviewView(BaseModel):
+    pass
+ 
 
       

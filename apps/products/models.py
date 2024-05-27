@@ -192,6 +192,19 @@ class Contact(BaseModel):
 
 
 
+class About(BaseModel):
+    address = models.CharField(max_length=250)
+    phone = models.CharField(max_length=20)
+    work_hours = models.CharField(max_length=50)
+    facebook = models.CharField(max_length=50)
+    instagram = models.CharField(max_length=250)
+    youtube = models.CharField(max_length=350)
+    twitter = models.CharField(max_length=250)
+    instagram = models.CharField(max_length=250)
+
+    def __str__(self):
+        return self.address
+    
 
 
 

@@ -498,10 +498,11 @@ home page
                     <div class="slider-arrow slider-arrow-3 carausel-6-columns-arrow" id="carausel-6-columns-3-arrows"></div>
                     <div class="carausel-6-columns text-center" id="carausel-6-columns-3">
                         {% for bran in brands %}
-                        <div class="brand-logo">
-                            <img class="img-grey-hover" src="{{ bran.icon.url }}" alt=""><br>
-                            <b>{{ bran.name }}</b>
-                        </div>
+                            <div class="brand-logo">
+                                <img class="img-grey-hover" src="{{ bran.icon.url }}" alt=""><br>
+                                <b>{{ bran.name }}</b>
+                            </div>
+                        
                         {% endfor %}
                     </div>
                 </div>
@@ -533,18 +534,19 @@ home page
                     {% for random_new in random_news %}
                         {% if forloop.counter == 1 %}
                         
-                        
-                            <div class="col-lg-3 d-none d-lg-flex">
-                                <div class="banner-img style-2 wow fadeIn animated" >
-                                    <img src="{{ random_new.images.first.image.url }}" alt="img">
-                                    <div class="banner-text">
-                                        <br><br><br><br><br>
-                                        <span style="color: fuchsia;">{{ random_new.categories.first.name }}</span>
-                                        <h4 style="color: blue;">Save {{ random_new.percentage }}% on <br>{{ random_new.name }}</h4>
-                                        <a href="shop-grid-right.html" style="color: crimson;">Shop Now <i class="fa fa-arrow-right"></i></a>
+                            <a href="{% url 'detail' random_new.id %}">
+                                <div class="col-lg-3 d-none d-lg-flex">
+                                    <div class="banner-img style-2 wow fadeIn animated" >
+                                        <img src="{{ random_new.images.first.image.url }}" alt="img">
+                                        <div class="banner-text">
+                                            <br><br><br><br><br>
+                                            <span style="color: fuchsia;">{{ random_new.categories.first.name }}</span>
+                                            <h4 style="color: blue;">Save {{ random_new.percentage }}% on <br>{{ random_new.name }}</h4>
+                                            <a href="shop-grid-right.html" style="color: crimson;">Shop Now <i class="fa fa-arrow-right"></i></a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
                         {% endif %}
 
                     {% endfor %}
@@ -561,15 +563,13 @@ home page
                                             <div class="product-cart-wrap mb-30">
                                                 <div class="product-img-action-wrap">
                                                     <div class="product-img product-img-zoom">
-                                                        <a href="shop-product-right.html">
+                                                        <a href="{% url 'detail' each_random_product.id %}">
                                                             <img class="default-img" src="{{ each_random_product.images.first.image.url }}" alt="">
                                                             <img class="hover-img" src="{{ each_random_product.images.last.image.url }}" alt="">
                                                         </a>
                                                     </div>
                                                     <div class="product-action-1">
-                                                        <a aria-label="Quick view" class="action-btn small hover-up"><i class="far fa-search"></i></a>
-                                                        <a aria-label="Add To Wishlist" class="action-btn small hover-up" href="shop-wishlist.html"><i class="far fa-heart"></i></a>
-                                                        <a aria-label="Compare" class="action-btn small hover-up" href="shop-compare.html"><i class="far fa-exchange-alt"></i></a>
+                                                        <a aria-label="Add To Wishlist" class="action-btn small hover-up" href="{% url 'add_whishlist' each_random_product.id %}"><i class="far fa-heart"></i></a>
                                                     </div>
                                                     <div class="product-badges product-badges-position product-badges-mrg">
                                                         <span class="{{ each_random_product.status|lower }}">{{ each_random_product.status }}</span>
@@ -577,12 +577,12 @@ home page
                                                 </div>
                                                 <div class="product-content-wrap">
                                                     <div class="product-category">
-                                                        <a href="shop-grid-right.html">{{ each_random_product.categories.first.name }}</a>
+                                                        <a href="{% url 'category_products' each_random_product.categories.first.id %}">{{ each_random_product.categories.first.name }}</a>
                                                     </div>
-                                                    <h2><a href="shop-product-right.html">{{ each_random_product.title|slice:"30" }}...</a></h2>
+                                                    <h2><a href="{% url 'detail' each_random_product.id %}">{{ each_random_product.title|slice:"30" }}...</a></h2>
                                                     <div class="rating-result" title="{{ each_random_product.get_avg_rating }}%">
                                                         <span>
-                                                            <span>{{ each_random_product.get_avg_rating }}%</span>
+                                                            <span>{{ each_random_product.get_avg_rating }} %</span>
                                                         </span>
                                                     </div>
                                                     <div class="product-price">
@@ -615,15 +615,13 @@ home page
                                             <div class="product-cart-wrap mb-30">
                                                 <div class="product-img-action-wrap">
                                                     <div class="product-img product-img-zoom">
-                                                        <a href="shop-product-right.html">
+                                                        <a href="{% url 'detail' each_new.id %}">
                                                             <img class="default-img" src="{{ each_new.images.first.image.url }}" alt="image">
                                                             <img class="hover-img" src="{{ each_new.images.last.image.url }}" alt="image">
                                                         </a>
                                                     </div>
                                                     <div class="product-action-1">
-                                                        <a aria-label="Quick view" class="action-btn small hover-up"><i class="far fa-search"></i></a>
-                                                        <a aria-label="Add To Wishlist" class="action-btn small hover-up" href="shop-wishlist.html"><i class="far fa-heart"></i></a>
-                                                        <a aria-label="Compare" class="action-btn small hover-up" href="shop-compare.html"><i class="far fa-exchange-alt"></i></a>
+                                                        <a aria-label="Add To Wishlist" class="action-btn small hover-up" href="{% url 'add_whishlist' each_new.id %}"><i class="far fa-heart"></i></a>
                                                     </div>
                                                     <div class="product-badges product-badges-position product-badges-mrg">
                                                         <span class="{{ each_new.status|lower }}">{{ each_new.status }}</span>
@@ -632,20 +630,21 @@ home page
                                                 </div>
                                                 <div class="product-content-wrap">
                                                     <div class="product-category">
-                                                        <a href="shop-grid-right.html">{{ each_new.categories.first.name }}</a>
+                                                        <a href="{% url 'category_products' each_new.categories.first.id %}">{{ each_new.categories.first.name }}</a>
                                                     </div>
-                                                    <h2><a href="shop-product-right.html">{{ each_new.title }}</a></h2>
-                                                    <div class="rating-result" title="90%">
+                                                    <h2><a href="{% url 'detail' each_new.id %}">{{ each_new.title }}</a></h2>
+                                                    <div class="rating-result" title="{{ each_new.get_avg_rating }}ttt%">
                                                         <span>
-                                                            <span>70%</span>
+                                                            <span>{{ each_new.get_avg_rating }} %</span>
                                                         </span>
                                                     </div>
                                                     <div class="product-price">
-                                                        <span>$238.85 </span>
-                                                        <span class="old-price">$245.8</span>
+                                                        <h4><span>{{ each_new.get_new_price }} so'm </span></h4>
+                                                        <span class="old-price">{{ each_new.get_price }} so'm</span>
                                                     </div>
+
                                                     <div class="product-action-1 show">
-                                                        <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i class="far fa-shopping-bag"></i></a>
+                                                        <a aria-label="Add To Cart" class="action-btn hover-up" href="{% url 'add_shop_card' each_new.id %}"><i class="far fa-shopping-bag"></i></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -663,15 +662,13 @@ home page
                                             <div class="product-cart-wrap mb-30">
                                                 <div class="product-img-action-wrap">
                                                     <div class="product-img product-img-zoom">
-                                                        <a href="shop-product-right.html">
+                                                        <a href="{% url 'detail' each_element.id %}">
                                                             <img class="default-img" src="{{ each_element.images.first.image.url }}" alt="">
                                                             <img class="hover-img" src="{{ each_element.images.last.image.url }}" alt="">
                                                         </a>
                                                     </div>
                                                     <div class="product-action-1">
-                                                        <a aria-label="Quick view" class="action-btn small hover-up"><i class="far fa-search"></i></a>
-                                                        <a aria-label="Add To Wishlist" class="action-btn small hover-up" href="shop-wishlist.html"><i class="far fa-heart"></i></a>
-                                                        <a aria-label="Compare" class="action-btn small hover-up" href="shop-compare.html"><i class="far fa-exchange-alt"></i></a>
+                                                        <a aria-label="Add To Wishlist" class="action-btn small hover-up" href="{% url 'add_whishlist' each_element.id %}"><i class="far fa-heart"></i></a>
                                                     </div>
                                                     <div class="product-badges product-badges-position product-badges-mrg">
                                                         <span class="{{ each_element.status|lower }}">{{ each_element.status }}</span>
@@ -679,17 +676,17 @@ home page
                                                 </div>
                                                 <div class="product-content-wrap">
                                                     <div class="product-category">
-                                                        <a href="shop-grid-right.html">{{ each_element.categories.first.name }}</a>
+                                                        <a href="{% url 'category_products' each_element.categories.first.id %}">{{ each_element.categories.first.name }}</a>
                                                     </div>
-                                                    <h2><a href="shop-product-right.html">Leather Watch Band</a></h2>
-                                                    <div class="rating-result" title="90%">
+                                                    <h2><a href="{% url 'detail' each_element.id %}">{{ each_element.title | slice:"250" }}</a></h2>
+                                                    <div class="rating-result" title="{{ each_element.get_avg_rating }}%">
                                                         <span>
-                                                            <span>70%</span>
+                                                            <span>{{ each_element.get_avg_rating }}%</span>
                                                         </span>
                                                     </div>
                                                     <div class="product-price">
                                                         {% if each_element.percentage %}
-                                                            <span class="old-price">{{ each_element.get_price }}so'm</span>
+                                                            <span class="old-price">{{ each_element.get_price }} so'm</span>
                                                             <br>
                                                             <span>{{ each_element.get_new_price }} so'm </span>
 
@@ -699,7 +696,7 @@ home page
                                                         {% endif %}
                                                     </div>
                                                     <div class="product-action-1 show">
-                                                        <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i class="far fa-shopping-bag"></i></a>
+                                                        <a aria-label="Add To Cart" class="action-btn hover-up" href="{% url 'add_shop_card' each_element.id %}"><i class="far fa-shopping-bag"></i></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -728,7 +725,7 @@ home page
                                         <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
                                         <span style="color: blue;">{{ random_one_new_for_ads.status }}</span>
                                         <h4 style="color:green">Save {{ random_one_new_for_ads.percentage }}% on <br>{{ random_one_new_for_ads.title }}</h4>
-                                        <a href="shop-grid-right.html" style="color: crimson;">Shop Now <i class="fa fa-arrow-right"></i></a>
+                                        <a href="{% url 'detail' random_one_new_for_ads.id %}" style="color: crimson;">Shop Now <i class="fa fa-arrow-right"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -741,11 +738,11 @@ home page
                             
                                 <article class="row align-items-center">
                                     <figure class="col-md-3 mb-0">
-                                        <a href="shop-product-right.html"><img src="{{ each_deals.images.first.image.url }}" alt="image"></a>
+                                        <a href="{% url 'detail' each_deals.id %}"><img src="{{ each_deals.images.first.image.url }}" alt="image"></a>
                                     </figure>
                                     <div class="col-md-9 pl-0">
                                         <h4 class="title-small">
-                                            <a href="shop-product-right.html">{{ each_deals.title }}</a>
+                                            <a href="{% url 'detail' each_deals.id %}">{{ each_deals.title }}</a>
                                         </h4>
                                         <div class="product-price">
                                             <span class="old-price">{{ each_deals.get_price }} so'm</span>
@@ -765,11 +762,11 @@ home page
                             
                                 <article class="row align-items-center">
                                     <figure class="col-md-3 mb-0">
-                                        <a href="shop-product-right.html"><img src="{{ each_famous_new.images.first.image.url }}" alt="image"></a>
+                                        <a href="{% url 'detail' each_famous_new.id %}"><img src="{{ each_famous_new.images.first.image.url }}" alt="image"></a>
                                     </figure>
                                     <div class="col-md-9 pl-0">
                                         <h4 class="title-small">
-                                            <a href="shop-product-right.html">{{ each_famous_new.title }}</a>
+                                            <a href="{% url 'detail' each_famous_new.id %}">{{ each_famous_new.title }}</a>
                                         </h4>
                                         <div class="product-price">
                                             <span class="old-price">{{ each_famous_new.get_price }} so'm</span>
@@ -790,11 +787,11 @@ home page
                            
                                 <article class="row align-items-center">
                                     <figure class="col-md-3 mb-0">
-                                        <a href="shop-product-right.html"><img src="{{ each_hot_new.images.first.image.url }}" alt="image"></a>
+                                        <a href="{% url 'detail' each_hot_new.id %}"><img src="{{ each_hot_new.images.first.image.url }}" alt="image"></a>
                                     </figure>
                                     <div class="col-md-9 pl-0">
                                         <h4 class="title-small">
-                                            <a href="shop-product-right.html">{{ each_hot_new.title }}</a>
+                                            <a href="{% url 'detail' each_hot_new.id %}">{{ each_hot_new.title }}</a>
                                         </h4>
                                         <div class="product-price">
                                             <span class="old-price">{{ each_hot_new.get_price }} so'm</span>
