@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .models import User, UserResetPasswordCode
 from apps.base.utilits import send_mail_code
+
 class UserRegisterView(View):
     form_class = RegisterUserForm
     def get(self, request):
@@ -152,7 +153,9 @@ class PasswordResetConfirmView(View):
     
         
 
-        
+class Login_or_Logout_View(View):
+    def get(self, request):
+        return render(request, 'home.html')     
 
 
 

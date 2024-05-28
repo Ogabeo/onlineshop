@@ -16,7 +16,6 @@ class HomePageView(View):
         new_products=products.filter(status='New').order_by('?')[:3]
         famous_news=products.filter(status='New').order_by('?')[:3]
         hot_news=products.filter(status='Hot').order_by('?')[:3]
-        brands = Brand.objects.all().filter(is_active = True)
         context ={
             'featured_products':featured_products,
             'latest_products':latest_products,
@@ -26,7 +25,7 @@ class HomePageView(View):
             'new_products':new_products,
             'famous_news':famous_news,
             'hot_news':hot_news,
-            'brands':brands,
+            # 'brands':brands,
             'first_about':first_about
         }
         return render(request, 'products/index.html', context)
@@ -166,19 +165,21 @@ class ContactView(View):
     
 
 
-# class BrandProducts(View):
-#     def get(self, request, uuid):
-#         brand = Brand.objects.all().filter(is_active = True, uuid=uuid)
-#         brands = Brand.objects.all().filter(is_active = True)
-#         brand_products = Product.objects.filter(is_active = True, products=brand)
-#         print(brand_products)
+class BrandProducts(View):
+    def get(self, request, uuid):
+        brand = Brand.objects.all().filter(is_active = True, id=uuid)
+        
+        brands = Brand.objects.all().filter(is_active = True)
 
-#         context = {
-#             'brand':brand,
-#             'brands':brands,
-#             'brand_products':brand_products
-#         }  
-#         return render(request, 'products/index.html', context) 
+        brand_products = Product.objects.filter(is_active = True, products=brand)
+        print(brand_products)
+        print(brand)
+        context = {
+            'brand':brand,
+            'brands':brands,
+            'brand_products':brand_products
+        }  
+        return render(request, 'products/index.html', context) 
 # class ShopBrandView(View):
 
 #     def get(self, request, uuid):

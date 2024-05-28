@@ -59,7 +59,15 @@
                                         <li><a href="#">РУССКИЙ</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="page-login-register.html">Log In / Sign Up</a></li>
+                                {% if user.is_authenticated %}
+                                <li><a href="{% url 'accounts:logout' %}">Log out</a></li>
+                                <li><a href="{% url 'accounts:update' %}">Update</a></li>
+
+                                {% else %}
+                                <li><a href="{% url 'accounts:login' %}">Log in</a></li>
+                                <li><a href="{% url 'accounts:register' %}">Register</a></li>
+
+                                {% endif %}
                             </ul>
                         </div>
                     </div>
@@ -101,7 +109,7 @@
                                 
                             </div>
                             <div class="header-action-icon-2">
-                                <a href="page-login-register.html">
+                                <a href="{% url 'accounts:' %}">
                                     <img alt="wowy" src="{% static 'assets/imgs/theme/icons/icon-user.svg' %}">
                                 </a>
                             </div>
@@ -475,7 +483,12 @@
                         <a target="_blank" href="page-location.html"> Our location </a>
                     </div>
                     <div class="single-mobile-header-info">
-                        <a href="page-login-register.html">Log In / Sign Up </a>
+                        {% if user.is_authenticated %}
+                        <a href="{% url 'accounts:logout' %}">Log out</a>
+                        {% else %}
+                        <a href="{% url 'accounts:login' %}">Log in</a>
+                        <a href="{% url 'accounts:register' %}">Register</a>
+                        {% endif %}
                     </div>
                     <div class="single-mobile-header-info">
                         <a href="#">(+01) - 2345 - 6789 </a>
