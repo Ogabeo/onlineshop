@@ -498,11 +498,12 @@ home page
                     <div class="slider-arrow slider-arrow-3 carausel-6-columns-arrow" id="carausel-6-columns-3-arrows"></div>
                     <div class="carausel-6-columns text-center" id="carausel-6-columns-3">
                         {% for bran in brands %}
+                        <a href="{% url 'Shop_brand' bran.id %}">
                             <div class="brand-logo">
                                 <img class="img-grey-hover" src="{{ bran.icon.url }}" alt=""><br>
                                 <b>{{ bran.name }}</b>
                             </div>
-                        
+                        </a>
                         {% endfor %}
                     </div>
                 </div>

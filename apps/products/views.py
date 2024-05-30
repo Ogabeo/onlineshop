@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
-from apps.products.models import Product, Category, Brand, ProductSize, Size, Contact, About
+from apps.products.models import Product, Category, Brand, ProductSize, Size, Contact, About, DetailReviewModel
 from django.core.paginator import Paginator
 from django.db.models import Q
 
@@ -10,6 +10,7 @@ class HomePageView(View):
         first_about = About.objects.first()
         featured_products=products.order_by('?')[:16]
         famous=products.filter(status='Sale')
+        brands=Brand.objects.all()
         latest_products = products.filter(status='New').order_by('?')[:8]
         random_news=products.order_by('?')[:5]
         random_product=products.order_by('-percentage').order_by('?')[:2]
@@ -25,7 +26,7 @@ class HomePageView(View):
             'new_products':new_products,
             'famous_news':famous_news,
             'hot_news':hot_news,
-            # 'brands':brands,
+            'brands':brands,
             'first_about':first_about
         }
         return render(request, 'products/index.html', context)
@@ -40,11 +41,6 @@ class ShopAllView(View):
         categories = Category.objects.all().filter(is_active=True, parent=None)
 
         products_all = Product.objects.all().filter(is_active = True).order_by(sort_by)
-
-
-        
-        
-
 
         search = request.GET.get('search', '')
         if search:
@@ -103,7 +99,6 @@ class ShopCategoryView(View):
 class DetailView(View):
     def get(self, request, uuid):
         this_product =get_object_or_404(Product, id=uuid)
-              
         product_colors = this_product.sizes.all().distinct()
         product_sizes= this_product.sizes.all().values('size').distinct()
         pre_sizes = Size.objects.filter(id__in = product_sizes )
@@ -153,6 +148,26 @@ class ContactView(View):
 
         return redirect('home')
 
+class DetailReviewView(View):
+    def get(self, request, uuid):
+        this_product = get_object_or_404(Product, id=uuid)
+        context={
+            'this_product':this_product
+        }
+        return render(request, 'products/detail_review.html', context)
+
+
+    def post(self, request, uuid):
+        
+        data = request.POST
+        detailreview = DetailReviewModel()
+        detailreview.name = data.get('name')
+        detailreview.email = data.get('email')
+        detailreview.website = data.get('website')
+        detailreview.comment = data.get('comment')
+        detailreview.save()
+        return redirect('home')
+
 # class About(View):
 #     def get(self, request):
 #         first_about = About.objects.first()
@@ -167,11 +182,11 @@ class ContactView(View):
 
 class BrandProducts(View):
     def get(self, request, uuid):
-        brand = Brand.objects.all().filter(is_active = True, id=uuid)
+        brand = Brand.objects.get(is_active = True, id=uuid)
         
         brands = Brand.objects.all().filter(is_active = True)
 
-        brand_products = Product.objects.filter(is_active = True, products=brand)
+        brand_products = Product.objects.filter(is_active = True, brand=brand)
         print(brand_products)
         print(brand)
         context = {
@@ -179,7 +194,7 @@ class BrandProducts(View):
             'brands':brands,
             'brand_products':brand_products
         }  
-        return render(request, 'products/index.html', context) 
+        return render(request, 'products/shop.html', context) 
 # class ShopBrandView(View):
 
 #     def get(self, request, uuid):

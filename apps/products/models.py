@@ -207,7 +207,15 @@ class About(BaseModel):
     
 
 
-
+class DetailReviewModel(BaseModel):
+    name = models.CharField(max_length=250)
+    email = models.EmailField()
+    website = models.CharField(max_length=250)
+    comment = models.TextField()
+    
+    def __str__(self):
+        return self.name
+    
 
 
 

@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 from mptt.admin import DraggableMPTTAdmin
-from .models import Category, Brand, Color, Product, ProductImage, Review, Tag, Size, ProductSize, Contact, About
+from .models import Category, Brand, Color, Product, ProductImage, Review, Tag, Size, ProductSize, Contact, About, DetailReviewModel
 from django.utils.html import mark_safe
 
 @admin.register(Category)
@@ -92,6 +92,12 @@ class AboutAdmin(admin.ModelAdmin):
     list_display=('address', 'phone', 'facebook', 'youtube')
     list_display_links=('address', 'phone', 'facebook', 'youtube')
 
+
+@admin.register(DetailReviewModel)
+class DetailReviewModelAdmin(admin.ModelAdmin):
+    list_display= ('name', 'email', 'website')
+    list_display_links = ('name', 'email', 'website')
+    
 
 
 
