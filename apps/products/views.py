@@ -168,33 +168,92 @@ class DetailReviewView(View):
         detailreview.save()
         return redirect('home')
 
-# class About(View):
-#     def get(self, request):
-#         first_about = About.objects.first()
-#         address = first_about.address
+class AboutView(View):
+    def get(self, request):
+        first_about = About.objects.first()
+        address = first_about.address
 
-#         context = {
-#             'address':address
-#         }
-#         return render(request, 'products/index.html', context)
+        context = {
+            'address':address
+        }
+        return render(request, 'products/base.html', context)
     
 
 
-class BrandProducts(View):
+class BrandProductsView(View):
     def get(self, request, uuid):
         brand = Brand.objects.get(is_active = True, id=uuid)
         
         brands = Brand.objects.all().filter(is_active = True)
 
         brand_products = Product.objects.filter(is_active = True, brand=brand)
+        search = request.GET.get('search', '')
+        if search:
+            brand_products = brand_products.filter(Q(title__icontains = search) | Q(description__icontains = search) )
+
+        page_size=request.GET.get('page_size', 10)
+        if page_size == 'all':
+            page_size = brand_products.count()
+
+        paginator = Paginator(brand_products, page_size)
+
+        page = request.GET.get('page', 1)
+        page_obj = paginator.page(page)    
         print(brand_products)
         print(brand)
+
         context = {
             'brand':brand,
             'brands':brands,
-            'brand_products':brand_products
-        }  
-        return render(request, 'products/shop.html', context) 
+            'products_all':page_obj,
+            'page_size':page_size,
+            'search':search,
+
+        }
+        # context = {
+        #     'brand':brand,
+        #     'brands':brands,
+        #     'brand_products':brand_products
+        # }  
+        return render(request, 'products/brand_products.html', context) 
+    
+# class BrandProductsView(View):
+#     def get(self, request, uuid):
+
+        
+
+#         brand = Brand.objects.all().filter(is_active=True, id=uuid)
+#         brands = Brand.objects.all().filter(is_active = True)
+
+
+#         brand_products = Product.objects.filter(is_active = True, brand=brand)
+
+#         search = request.GET.get('search', '')
+#         if search:
+#             brand_products = brand_products.filter(Q(title__icontains = search) | Q(description__icontains = search) )
+            
+#         print(search)
+        
+
+
+#         page_size=request.GET.get('page_size', 10)
+#         if page_size == 'all':
+#             page_size = brand_products.count()
+
+#         paginator = Paginator(brands, page_size)
+
+#         page = request.GET.get('page', 1)
+#         page_obj = paginator.page(page)
+
+#         context = {
+#             'brands':brands,
+#             'products_all':page_obj,
+#             'page_size':page_size,
+#             'search':search,
+
+#         }
+
+#         return render(request, "products/brand_products.html", context)
 # class ShopBrandView(View):
 
 #     def get(self, request, uuid):
